@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  neovision_server:
+    build: ./neovision_server
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/neovision
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - db
+
+  neovision_admin:
+    build: ./neovision_admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      - neovision_server
+
+  # neovision_flutter:
+  #   build: ./neovision_flutter
+  #   Додайте тут конфігурацію для Flutter, якщо ви хочете запустити його в Docker.
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=neovision
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_COLLATION=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=password
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
