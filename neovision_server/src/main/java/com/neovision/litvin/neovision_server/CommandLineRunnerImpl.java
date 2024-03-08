@@ -86,9 +86,9 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     }
 
     private void initUnits(){
-        if (!unitService.existsByName("Оплот")) {
+        if (!unitService.existsByName("Oplot")) {
             Unit unit = new Unit();
-            unit.setName("Оплот");
+            unit.setName("Oplot");
             unit.setImageUrl("/uploads/ar/oplot.png");
             unit.setModelUrl("/uploads/ar/oplot.usdz");
             unitService.addUnit(unit);
